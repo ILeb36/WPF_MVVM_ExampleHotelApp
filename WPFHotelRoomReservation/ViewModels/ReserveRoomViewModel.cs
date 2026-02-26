@@ -1,10 +1,8 @@
-﻿using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
+using WPFHotelRoomReservation.Commands;
+using WPFHotelRoomReservation.Models;
+using WPFHotelRoomReservation.Services;
+using WPFHotelRoomReservation.Stores;
 
 namespace WPFHotelRoomReservation.ViewModels
 {
@@ -13,8 +11,8 @@ namespace WPFHotelRoomReservation.ViewModels
         private string resident;
         private int roomNumber;
         private int floorNumber;
-        private DateTime startingDate;
-        private DateTime endingDate;
+        private DateTime startingDate = DateTime.Now;
+        private DateTime endingDate = DateTime.Now.AddDays(7);
 
         public DateTime StartingDate
         {
@@ -67,11 +65,12 @@ namespace WPFHotelRoomReservation.ViewModels
         }
 
         public ICommand ReserveCommand { get; }
-        public ICommand CancelCommand { get; }
+        public ICommand NavigationCommand { get; }
 
-        public ReserveRoomViewModel()
+        public ReserveRoomViewModel(Hotel hotel, NavigationService listOfReservationsViewNavigationService)
         {
-            
+            ReserveCommand = new ReserveCommand(this, hotel, listOfReservationsViewNavigationService);
+            NavigationCommand = new NavigationCommand(listOfReservationsViewNavigationService);
         }
     }
 }

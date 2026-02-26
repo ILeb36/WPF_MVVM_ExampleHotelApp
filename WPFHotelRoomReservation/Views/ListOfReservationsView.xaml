@@ -20,7 +20,7 @@
 
             <Label Content="List of Reservations" Grid.Column="0" Style="{StaticResource Header}"/>
 
-            <Button Content="Create Reservation" Grid.Column="1" Margin="10 0 0 0" Command="{Binding CreateReservationCommand}"/>
+            <Button Content="Create Reservation" Grid.Column="1" Margin="10 0 0 0" Command="{Binding ReserveRoomViewNavigationCommand}"/>
         </Grid>
 
         <ListView Grid.Row="1" Margin="0 20 0 0" ItemsSource="{Binding Reservations}">

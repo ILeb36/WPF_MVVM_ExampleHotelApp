@@ -5,16 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFHotelRoomReservation"
         xmlns:views="clr-namespace:WPFHotelRoomReservation.Views"
+        xmlns:viewModels="clr-namespace:WPFHotelRoomReservation.ViewModels"
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight"
         Title="MainWindow" Height="450" Width="auto" FontSize="14">
-
-    <!-- SizeToContent="WidthAndHeight" -->
+    
     <Grid Margin="25, 10">
-        <!-- All Bindings from inner model will use this DataContext's properties as source -->
-        <views:ListOfReservationsView DataContext="{Binding CurrentViewModel}"/>
-
-
-        <!-- ReserveRoomView -->
+        <Grid.Resources>
+            <!-- Data context is set automatically according to value type in Content-->
+            <DataTemplate DataType="{x:Type viewModels:ReserveRoomViewModel}">
+                <views:ReserveRoomView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:ListOfReservationsViewModel}">
+                <views:ListOfReservationsView/>
+            </DataTemplate>
+        </Grid.Resources>
+        
+        <ContentControl Content="{Binding CurrentViewModel}"/>
     </Grid>
 </Window>
