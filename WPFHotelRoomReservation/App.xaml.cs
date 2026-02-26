@@ -1,8 +1,5 @@
-﻿using System.Configuration;
-using System.Data;
-using System.Windows;
-using WPFHotelRoomReservation.CustomExceptions;
-using WPFHotelRoomReservation.Models;
+﻿using System.Windows;
+using WPFHotelRoomReservation.ViewModels;
 
 namespace WPFHotelRoomReservation
 {
@@ -13,30 +10,12 @@ namespace WPFHotelRoomReservation
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            Hotel hotel = new Hotel("WPF MVVM hotel");
-            string resident = "Me";
-
-            try
+            MainWindow mainWindow = new MainWindow()
             {
-                hotel.ReserveRoom(new Reservation(
-                new Room(2, 5),
-                resident,
-                new DateTime(2026, 3, 2),
-                new DateTime(2026, 3, 12)));
+                DataContext = new MainWindowViewModel()
+            };
 
-            hotel.ReserveRoom(new Reservation(
-                new Room(2, 5),
-                resident,
-                new DateTime(2026, 3, 2),
-                new DateTime(2026, 3, 3)));
-
-            }
-            catch(ReservationIntersectionException)
-            {
-
-            }
-
-            var reservations = hotel.GetReservationsByResident(resident);
+            MainWindow.Show();
 
             base.OnStartup(e);
         }

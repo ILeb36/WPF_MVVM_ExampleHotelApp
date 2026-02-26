@@ -21,6 +21,12 @@
             EndTime = endTime;
         }
 
+        /// <summary>
+        /// Check is current reservation dates intersects with target reservation dates
+        /// </summary>
+        /// <param name="targetReservation">Target reservation</param>
+        /// <returns>true, if dates for the same room intersects</returns>
+        /// <exception cref="ArgumentNullException"></exception>
         public bool IsIntersectWith(Reservation targetReservation)
         {
             ArgumentNullException.ThrowIfNull(targetReservation);

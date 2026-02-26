@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WPFHotelRoomReservation.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="400">
+             d:DesignHeight="450" d:DesignWidth="720">
     <Grid Margin="0 0 0 50">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -20,24 +20,21 @@
 
             <Label Content="List of Reservations" Grid.Column="0" Style="{StaticResource Header}"/>
 
-            <Button Content="Create Reservation" Grid.Column="1" Margin="10 0 0 0"/>
+            <Button Content="Create Reservation" Grid.Column="1" Margin="10 0 0 0" Command="{Binding CreateReservationCommand}"/>
         </Grid>
 
-        <ListView Grid.Row="1" Margin="0 20 0 0">
+        <ListView Grid.Row="1" Margin="0 20 0 0" ItemsSource="{Binding Reservations}">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                 </Style>
             </ListView.ItemContainerStyle>
-            <ListViewItem/>
-            <ListViewItem/>
-            <ListViewItem/>
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Room">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Label HorizontalAlignment="Center">5</Label>
+                                <Label Content="{Binding Room}" HorizontalAlignment="Center"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -45,7 +42,7 @@
                     <GridViewColumn Header="Reserver">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Label>Unknown</Label>
+                                <Label Content="{Binding Resident}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -53,7 +50,7 @@
                     <GridViewColumn Header="Starting Date">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Label>2026/4/23</Label>
+                                <Label Content="{Binding StartTime}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -61,7 +58,7 @@
                     <GridViewColumn Header="Ending Date">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Label>2026/5/2</Label>
+                                <Label Content="{Binding EndTime}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

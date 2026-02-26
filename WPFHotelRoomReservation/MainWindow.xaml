@@ -6,16 +6,15 @@
         xmlns:local="clr-namespace:WPFHotelRoomReservation"
         xmlns:views="clr-namespace:WPFHotelRoomReservation.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="600" FontSize="14">
+        SizeToContent="WidthAndHeight"
+        Title="MainWindow" Height="450" Width="auto" FontSize="14">
 
     <!-- SizeToContent="WidthAndHeight" -->
     <Grid Margin="25, 10">
-        <!-- <views:ReserveRoomView />  -->
-        <!-- <views:ListOfReservationsView /> -->
-
-        <views:ReserveRoomView />
+        <!-- All Bindings from inner model will use this DataContext's properties as source -->
+        <views:ListOfReservationsView DataContext="{Binding CurrentViewModel}"/>
 
 
-
+        <!-- ReserveRoomView -->
     </Grid>
 </Window>
