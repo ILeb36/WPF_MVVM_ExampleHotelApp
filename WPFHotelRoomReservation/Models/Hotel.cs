@@ -15,14 +15,23 @@ namespace WPFHotelRoomReservation.Models
         }
 
         /// <summary>
-        /// Get all reservations made by resident
+        /// Get reservations made by resident
         /// </summary>
         /// <param name="resident">Current resident</param>
-        /// <returns>All reservations made by resident</returns>
+        /// <returns>List of reservations made by resident</returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public IEnumerable<Reservation> GetReservationsByResident(Resident resident)
+        public IEnumerable<Reservation> GetReservationsByResident(string resident)
         {
             return reservationBook.GetReservationsByResident(resident);
+        }
+
+        /// <summary>
+        /// Get all active reservations
+        /// </summary>
+        /// <returns>List of all reservations</returns>
+        public IEnumerable<Reservation> GetAllReservations()
+        {
+            return reservationBook.GetAllReservations();
         }
 
         /// <summary>

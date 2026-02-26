@@ -14,19 +14,19 @@ namespace WPFHotelRoomReservation
         protected override void OnStartup(StartupEventArgs e)
         {
             Hotel hotel = new Hotel("WPF MVVM hotel");
-            Resident me = new Resident(2, "Me");
+            string resident = "Me";
 
             try
             {
                 hotel.ReserveRoom(new Reservation(
                 new Room(2, 5),
-                me,
+                resident,
                 new DateTime(2026, 3, 2),
                 new DateTime(2026, 3, 12)));
 
             hotel.ReserveRoom(new Reservation(
                 new Room(2, 5),
-                me,
+                resident,
                 new DateTime(2026, 3, 2),
                 new DateTime(2026, 3, 3)));
 
@@ -36,7 +36,7 @@ namespace WPFHotelRoomReservation
 
             }
 
-            var reservations = hotel.GetReservationsByResident(me);
+            var reservations = hotel.GetReservationsByResident(resident);
 
             base.OnStartup(e);
         }

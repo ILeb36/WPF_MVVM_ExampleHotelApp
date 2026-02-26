@@ -6,10 +6,10 @@
         public Room Room { get; }
         public DateTime StartTime { get; }
         public DateTime EndTime { get; }
-        public Resident Resident { get; }
+        public string Resident { get; }
         public TimeSpan Duration => EndTime - StartTime;
 
-        public Reservation(Room room, Resident resident, DateTime startTime, DateTime endTime)
+        public Reservation(Room room, string resident, DateTime startTime, DateTime endTime)
         {
             ArgumentNullException.ThrowIfNull(room);
             ArgumentNullException.ThrowIfNull(resident);
