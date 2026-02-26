@@ -6,7 +6,7 @@ using WPFHotelRoomReservation.ViewModels;
 
 namespace WPFHotelRoomReservation.Commands
 {
-    public class ReserveCommand : BaseCommand
+    public class ReserveCommand : BaseCommandAsync
     {
         private readonly ReserveRoomViewModel reserveRoomViewModel;
         private readonly Hotel hotel;
@@ -37,7 +37,7 @@ namespace WPFHotelRoomReservation.Commands
                 reserveRoomViewModel.RoomNumber > 0;
         }
 
-        public override void Execute(object? parameter)
+        public override async Task ExecuteAsync(object? parameter)
         {
             Reservation reservation = new Reservation(
                 new Room(reserveRoomViewModel.RoomNumber, reserveRoomViewModel.FloorNumber),
@@ -47,7 +47,7 @@ namespace WPFHotelRoomReservation.Commands
 
             try
             {
-                hotel.ReserveRoom(reservation);
+                await hotel.ReserveRoom(reservation);
                 MessageBox.Show("Reservations completed successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 listOfReservationsViewNavigationService.Navigate();
@@ -55,6 +55,10 @@ namespace WPFHotelRoomReservation.Commands
             catch (ReservationIntersectionException)
             {
                 MessageBox.Show("Reservations for the selected time period are not permitted.", "Reservation error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Failed to save reservation", "Reservation error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

@@ -8,27 +8,28 @@ namespace WPFHotelRoomReservation.ViewModels
 {
     public class ListOfReservationsViewModel : BaseViewModel
     {
-        private readonly ObservableCollection<ReservationViewModel> reservations;
+        private readonly ObservableCollection<ReservationViewModel> observableReservations;
         private readonly Hotel hotel;
 
         public ICommand ReserveRoomViewNavigationCommand { get; }
-        public IEnumerable<ReservationViewModel> Reservations => reservations;
+        public IEnumerable<ReservationViewModel> Reservations => observableReservations;
 
         public ListOfReservationsViewModel(Hotel hotel, NavigationService reserveRoomViewNavigationService)
         {
-            reservations = new ObservableCollection<ReservationViewModel>();
+            observableReservations = new ObservableCollection<ReservationViewModel>();
             ReserveRoomViewNavigationCommand = new NavigationCommand(reserveRoomViewNavigationService);
             this.hotel = hotel;
 
             UpdateReservations();
         }
 
-        private void UpdateReservations()
+        private async Task UpdateReservations()
         {
-            reservations.Clear();
-            foreach (Reservation reservation in hotel.GetAllReservations())
+            observableReservations.Clear();
+            var reservations = await hotel.GetAllReservations();
+            foreach (Reservation reservation in reservations)
             {
-                reservations.Add(new ReservationViewModel(reservation));
+                observableReservations.Add(new ReservationViewModel(reservation));
             }
         }
     }

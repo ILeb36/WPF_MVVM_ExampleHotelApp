@@ -8,30 +8,23 @@ namespace WPFHotelRoomReservation.Models
 
         public string Name { get; }
 
-        public Hotel(string name)
+        /// <summary>
+        /// Main class, holder of reservations list
+        /// </summary>
+        /// <param name="name">Name of the hotel</param>
+        public Hotel(string name, ReservationBook reservationBook)
         {
             Name = name;
-            reservationBook = new ReservationBook();
-        }
-
-        /// <summary>
-        /// Get reservations made by resident
-        /// </summary>
-        /// <param name="resident">Current resident</param>
-        /// <returns>List of reservations made by resident</returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        public IEnumerable<Reservation> GetReservationsByResident(string resident)
-        {
-            return reservationBook.GetReservationsByResident(resident);
+            this.reservationBook = reservationBook;
         }
 
         /// <summary>
         /// Get all active reservations
         /// </summary>
         /// <returns>List of all reservations</returns>
-        public IEnumerable<Reservation> GetAllReservations()
+        public async Task<IEnumerable<Reservation>> GetAllReservations()
         {
-            return reservationBook.GetAllReservations();
+             return await reservationBook.GetAllReservations();
         }
 
         /// <summary>
@@ -40,9 +33,9 @@ namespace WPFHotelRoomReservation.Models
         /// <param name="reservation">New reservation</param>
         /// <exception cref="ReservationIntersectionException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public void ReserveRoom(Reservation reservation)
+        public async Task ReserveRoom(Reservation reservation)
         {
-            reservationBook.AddReservation(reservation);
+            await reservationBook.AddReservation(reservation);
         }
     }
 }

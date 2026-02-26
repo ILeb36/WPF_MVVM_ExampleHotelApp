@@ -5,6 +5,11 @@
         public int RoomNumber { get; }
         public int FloorNumber { get; }
 
+        /// <summary>
+        /// Room instance
+        /// </summary>
+        /// <param name="roomNumber"></param>
+        /// <param name="floorNumber"></param>
         public Room(int roomNumber, int floorNumber)
         {
             RoomNumber = roomNumber;

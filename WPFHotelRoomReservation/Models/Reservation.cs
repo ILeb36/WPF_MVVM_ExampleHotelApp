@@ -9,6 +9,13 @@
         public string Resident { get; }
         public TimeSpan Duration => EndTime - StartTime;
 
+        /// <summary>
+        /// A single note about reserved room
+        /// </summary>
+        /// <param name="room">Room instance</param>
+        /// <param name="resident">Person who ordered the room</param>
+        /// <param name="startTime">Reservation start time</param>
+        /// <param name="endTime">Reservation end time</param>
         public Reservation(Room room, string resident, DateTime startTime, DateTime endTime)
         {
             ArgumentNullException.ThrowIfNull(room);

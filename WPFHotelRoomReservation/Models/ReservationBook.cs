@@ -1,35 +1,31 @@
 ﻿using WPFHotelRoomReservation.CustomExceptions;
+using WPFHotelRoomReservation.Services;
 
 namespace WPFHotelRoomReservation.Models
 {
     public class ReservationBook
     {
-        private readonly List<Reservation> listOfReservations;
-
-        public ReservationBook()
-        {
-            listOfReservations = new List<Reservation>();
-        }
+        private readonly IReservationsProvider reservationsProvider;
+        private readonly IReservationsCreator reservationsCreator;
+        private readonly IReservationsValidator reservationsValidator;
 
         /// <summary>
-        /// Get reservations made by resident
+        /// List of all reservations
         /// </summary>
-        /// <param name="resident">Current resident</param>
-        /// <returns>List of reservations made by resident</returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        public IEnumerable<Reservation> GetReservationsByResident(string resident)
+        public ReservationBook(IReservationsProvider reservationsProvider, IReservationsCreator reservationsCreator, IReservationsValidator reservationsValidator)
         {
-            ArgumentNullException.ThrowIfNull(resident);
-            return listOfReservations.Where(reservation => reservation.Resident.Equals(resident));
+            this.reservationsProvider = reservationsProvider;
+            this.reservationsCreator = reservationsCreator;
+            this.reservationsValidator = reservationsValidator;
         }
 
         /// <summary>
         /// Get all active reservations
         /// </summary>
         /// <returns>List of all reservations</returns>
-        public IEnumerable<Reservation> GetAllReservations()
+        public async Task<IEnumerable<Reservation>> GetAllReservations()
         {
-            return listOfReservations;
+            return await reservationsProvider.GetAllReservations();
         }
 
         /// <summary>
@@ -38,18 +34,17 @@ namespace WPFHotelRoomReservation.Models
         /// <param name="reservation">New reservation</param>
         /// <exception cref="ReservationIntersectionException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public void AddReservation(Reservation reservation)
+        public async Task AddReservation(Reservation reservation)
         {
             ArgumentNullException.ThrowIfNull(reservation);
-            foreach (Reservation activeReservation in listOfReservations)
+
+            Reservation conflictedReservation = await reservationsValidator.SearchForIntersections(reservation);
+            if (conflictedReservation is not null)
             {
-                if (activeReservation.IsIntersectWith(reservation))
-                {
-                    throw new ReservationIntersectionException(activeReservation, reservation);
-                }
+                throw new ReservationIntersectionException(conflictedReservation, reservation);
             }
 
-            listOfReservations.Add(reservation);
+            await reservationsCreator.CreateReservation(reservation);
         }
     }
 }

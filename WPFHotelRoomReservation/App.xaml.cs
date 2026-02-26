@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using Microsoft.EntityFrameworkCore;
+using WPFHotelRoomReservation.DatabaseRelated;
 using WPFHotelRoomReservation.Models;
 using WPFHotelRoomReservation.Services;
 using WPFHotelRoomReservation.Stores;
@@ -11,12 +13,20 @@ namespace WPFHotelRoomReservation
     /// </summary>
     public partial class App : Application
     {
+        private const string DB_CONNECTION_STRING = "Data Source=Reservations.db";
         private readonly Hotel hotel;
         private readonly NavigationStore navigationStore;
+        private readonly DatabaseContextFactory contextFactory;
 
         public App()
         {
-            hotel = new Hotel("MVVM WPF Hotel");
+            contextFactory = new DatabaseContextFactory(DB_CONNECTION_STRING);
+            IReservationsProvider provider = new DatabaseReservationsProvider(contextFactory);
+            IReservationsCreator creator = new DatabaseReservationsCreator(contextFactory);
+            IReservationsValidator validator = new DatabaseReservationsValidator(contextFactory);
+
+            ReservationBook reservationBook = new ReservationBook(provider, creator, validator);
+            hotel = new Hotel("MVVM WPF Hotel", reservationBook);
             navigationStore = new NavigationStore();
         }
 
